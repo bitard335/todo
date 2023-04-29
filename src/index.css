@@ -1,0 +1,8 @@
+@import './base.css';
+@import './components/todoApp/todoApp.css';
+@import './components/taskList/taskList.css';
+@import './components/task/task.css';
+@import './components/header/header.css';
+@import './components/tasksFilter/tasksFilter.css';
+@import './components/footer/footer.css';
+@import './components/newTaskForm/newTaskForm.css';
