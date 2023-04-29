@@ -1,10 +1,11 @@
-import { Component } from "react";
-import NewTaskForm from "../newTaskForm/newTaskForm";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import NewTaskForm from '../newTaskForm/newTaskForm';
 
 export default class Header extends Component {
   static defaultProps = {
-    title: "Todos",
+    title: 'Todos',
   };
   static propTypes = {
     title: PropTypes.string,

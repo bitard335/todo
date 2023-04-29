@@ -1,9 +1,10 @@
-import { Component } from "react";
-import Task from "../task/task";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import Task from '../task/task';
 export default class TaskList extends Component {
   state = {
-    value: "",
+    value: '',
   };
 
   static defaultProps = {
@@ -18,13 +19,12 @@ export default class TaskList extends Component {
   };
   render() {
     const { value } = this.state;
-    const { todos, changeCompleted, removeItem, editItem, showEdit } =
-      this.props;
+    const { todos, changeCompleted, removeItem, editItem, showEdit } = this.props;
     const elements = todos.map((item) => {
       let { id, completed, edit, ...rest } = item;
-      let className = "";
-      if (completed) className = "completed";
-      if (edit) className = "editing";
+      let className = '';
+      if (completed) className = 'completed';
+      if (edit) className = 'editing';
 
       const inputChangeHandler = (event) => {
         this.setState({ value: event.target.value });
@@ -33,7 +33,7 @@ export default class TaskList extends Component {
         event.preventDefault();
         if (value.trim()) editItem(id, value);
         this.setState({
-          value: "",
+          value: '',
         });
         showEdit(id, false);
       };
@@ -49,12 +49,7 @@ export default class TaskList extends Component {
             showEdit={showEdit}
           />
           <form onSubmit={submitHandler}>
-            <input
-              type="text"
-              className="edit"
-              onChange={inputChangeHandler}
-              value={this.state.value}
-            ></input>
+            <input type="text" className="edit" onChange={inputChangeHandler} value={this.state.value}></input>
           </form>
         </li>
       );

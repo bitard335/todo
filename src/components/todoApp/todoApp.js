@@ -1,14 +1,15 @@
-import TaskList from "../taskList/taskList";
-import Footer from "../footer/footer";
-import Header from "../header/header";
-import { Component } from "react";
+import { Component } from 'react';
+
+import TaskList from '../taskList/taskList';
+import Footer from '../footer/footer';
+import Header from '../header/header';
 
 export default class TodoApp extends Component {
   constructor() {
     super();
     this.state = {
       todos: [],
-      filter: "all",
+      filter: 'all',
     };
   }
 
@@ -21,13 +22,11 @@ export default class TodoApp extends Component {
   filter() {
     const { filter, todos } = this.state;
     let filteredTodos;
-    if (filter === "all") {
+    if (filter === 'all') {
       filteredTodos = todos;
     } else {
       filteredTodos =
-        filter === "done"
-          ? todos.filter((todo) => todo.completed)
-          : todos.filter((todo) => !todo.completed);
+        filter === 'done' ? todos.filter((todo) => todo.completed) : todos.filter((todo) => !todo.completed);
     }
     return filteredTodos;
   }
@@ -56,13 +55,13 @@ export default class TodoApp extends Component {
 
   showEdit = (id, value) => {
     this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, "edit", value),
+      todos: this.edit(todos, id, 'edit', value),
     }));
   };
 
   editItem = (id, value) => {
     this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, "label", value),
+      todos: this.edit(todos, id, 'label', value),
     }));
   };
 
@@ -74,7 +73,7 @@ export default class TodoApp extends Component {
 
   changeCompleted = (id, value) => {
     this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, "completed", value),
+      todos: this.edit(todos, id, 'completed', value),
     }));
   };
 
@@ -94,11 +93,7 @@ export default class TodoApp extends Component {
 
     return (
       <div className="todoapp">
-        <Header
-          placeholder="What needs to be done?"
-          title="Todos"
-          addItem={this.addItem}
-        />
+        <Header placeholder="What needs to be done?" title="Todos" addItem={this.addItem} />
 
         <div className="main">
           <TaskList
@@ -108,11 +103,7 @@ export default class TodoApp extends Component {
             removeItem={this.removeItem}
             changeCompleted={this.changeCompleted}
           />
-          <Footer
-            undoneCount={undoneCount}
-            changeFilter={this.changeFilter}
-            clearCompleted={this.clearCompleted}
-          />
+          <Footer undoneCount={undoneCount} changeFilter={this.changeFilter} clearCompleted={this.clearCompleted} />
         </div>
       </div>
     );

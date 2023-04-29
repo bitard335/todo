@@ -3,9 +3,6 @@
     "browser": true,
     "es2021": true
   },
-  "react": {
-    "version": "detect"
-  },
   "ignorePatterns": ["node_modules", "dist", "build"],
   "extends": [
     "eslint:recommended",
@@ -27,7 +24,7 @@
     "prettier/prettier": "error",
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
-    "semi": ["error", "never"],
+    "semi": ["error", "always"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
     "import/no-unresolved": [2, { "caseSensitive": false }],
@@ -41,6 +38,9 @@
     ]
   },
   "settings": {
+    "react": {
+      "version": "detect"
+    },
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],

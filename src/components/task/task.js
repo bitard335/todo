@@ -1,12 +1,12 @@
-import { Component } from "react";
-import { formatDistanceToNow } from "date-fns";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import PropTypes from 'prop-types';
 
 export default class Task extends Component {
   static defaultProps = {
     date: new Date(),
     completed: false,
-    label: 'Задача'
+    label: 'Задача',
   };
   static propTypes = {
     date: PropTypes.instanceOf(Date),
@@ -15,7 +15,7 @@ export default class Task extends Component {
     showEdit: PropTypes.func.isRequired,
     id: PropTypes.number,
     completed: PropTypes.bool,
-    label: PropTypes.string
+    label: PropTypes.string,
   };
 
   componentDidMount() {
@@ -28,21 +28,13 @@ export default class Task extends Component {
   }
 
   render() {
-    const {
-      changeCompleted,
-      removeItem,
-      showEdit,
-      id,
-      completed,
-      label,
-      date,
-    } = this.props;
+    const { changeCompleted, removeItem, showEdit, id, completed, label, date } = this.props;
 
     const timePassed = formatDistanceToNow(date, {
       includeSeconds: true,
     });
     const removeHandler = (evt) => {
-      if (evt.target.matches(".icon-destroy")) {
+      if (evt.target.matches('.icon-destroy')) {
         removeItem(id);
       }
     };
@@ -55,12 +47,7 @@ export default class Task extends Component {
 
     return (
       <div className="view" onClick={removeHandler}>
-        <input
-          className="toggle"
-          type="checkbox"
-          onChange={completedHandler}
-          checked={this.props.completed}
-        />
+        <input className="toggle" type="checkbox" onChange={completedHandler} checked={this.props.completed} />
         <label>
           <span className="description">{label}</span>
           <span className="created">{timePassed}</span>

@@ -1,5 +1,5 @@
-import { Component } from "react";
-import PropTypes from "prop-types"
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class TasksFilter extends Component {
   state = {
@@ -7,8 +7,8 @@ export default class TasksFilter extends Component {
   };
 
   static propTypes = {
-    changeFilter: PropTypes.func.isRequired
-  }
+    changeFilter: PropTypes.func.isRequired,
+  };
 
   render() {
     let { activeIndex } = this.state;
@@ -21,14 +21,11 @@ export default class TasksFilter extends Component {
       });
     };
 
-    const items = ["All", "Active", "Done"];
+    const items = ['All', 'Active', 'Done'];
     const listElements = items.map((item, index) => {
       return (
         <li key={index}>
-          <button
-            className={activeIndex === index ? "selected" : ""}
-            onClick={() => handleChangeFilter(item, index)}
-          >
+          <button className={activeIndex === index ? 'selected' : ''} onClick={() => handleChangeFilter(item, index)}>
             {item}
           </button>
         </li>

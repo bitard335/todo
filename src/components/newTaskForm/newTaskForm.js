@@ -1,21 +1,21 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
   constructor() {
     super();
     this.state = {
-      value: "",
+      value: '',
     };
   }
 
   static defaultProps = {
-    placeholder: "Что надо сделать?",
-  }
+    placeholder: 'Что надо сделать?',
+  };
   static propTypes = {
     addItem: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
-  }
+  };
 
   render() {
     const { placeholder, addItem } = this.props;
@@ -28,18 +28,12 @@ export default class NewTaskForm extends Component {
       event.preventDefault();
       if (value.trim()) addItem(value);
       this.setState({
-        value: "",
+        value: '',
       });
     };
     return (
       <form onSubmit={submitHandler}>
-        <input
-          className="new-todo"
-          placeholder={placeholder}
-          onChange={inputChangeHandler}
-          value={value}
-          autoFocus
-        />
+        <input className="new-todo" placeholder={placeholder} onChange={inputChangeHandler} value={value} autoFocus />
       </form>
     );
   }
