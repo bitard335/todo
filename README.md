@@ -1,1 +1,1 @@
-Ссылка на выгруженное приложение: https://todo-bitard335.vercel.app/
+Ссылка на выгруженное приложение в верселе: https://todo-bitard335.vercel.app/
