@@ -11,7 +11,7 @@
 	cursor: default;
 }
 
-.filters li button {
+.filters li label span {
 	display: inline-block;
 	color: inherit;
 	margin: 3px;
@@ -21,14 +21,17 @@
 	border-radius: 3px;
 }
 
-.filters li button:not(.selected) {
+.filters li label input:not(:checked) + span{
 	cursor: pointer;
 }
+.filters li input {
+	display: none;
+}
 
-.filters li:hover button {
+.filters label li:hover input + span{
 	border-color: rgba(175, 47, 47, 0.1);
 }
 
-.filters li button.selected {
+.filters li label input:checked + span{
 	border-color: rgba(175, 47, 47, 0.2);
 }

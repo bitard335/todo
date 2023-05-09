@@ -19,7 +19,7 @@ export default class TaskList extends Component {
   };
   render() {
     const { value } = this.state;
-    const { todos, changeCompleted, removeItem, editItem, showEdit } = this.props;
+    const { todos, changeCompleted, removeItem, editItem, showEdit, updateTime, setTimerId } = this.props;
     const elements = todos.map((item) => {
       let { id, completed, edit, ...rest } = item;
       let className = '';
@@ -47,6 +47,8 @@ export default class TaskList extends Component {
             changeCompleted={changeCompleted}
             removeItem={removeItem}
             showEdit={showEdit}
+            updateTime={updateTime}
+            setTimerId={setTimerId}
           />
           <form onSubmit={submitHandler}>
             <input type="text" className="edit" onChange={inputChangeHandler} value={this.state.value}></input>

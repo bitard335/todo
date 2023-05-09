@@ -38,6 +38,8 @@ export default class TodoApp extends Component {
       id: this.state.todos.length,
       date: Date.now(),
       edit: false,
+      timeSpended: 0,
+      timerId: null,
     };
 
     this.setState((state) => ({
@@ -52,7 +54,17 @@ export default class TodoApp extends Component {
     });
     return newArr;
   };
+  setTimerId = (id, value) => {
+    this.setState(({ todos }) => ({
+      todos: this.edit(todos, id, 'timerId', value),
+    }));
+  };
 
+  updateTime = (id, value) => {
+    this.setState(({ todos }) => {
+      return { todos: this.edit(todos, id, 'timeSpended', value) };
+    });
+  };
   showEdit = (id, value) => {
     this.setState(({ todos }) => ({
       todos: this.edit(todos, id, 'edit', value),
@@ -93,7 +105,7 @@ export default class TodoApp extends Component {
 
     return (
       <div className="todoapp">
-        <Header placeholder="What needs to be done?" title="Todos" addItem={this.addItem} />
+        <Header placeholder="Что надо сделать?" title="Todos" addItem={this.addItem} />
 
         <div className="main">
           <TaskList
@@ -102,6 +114,8 @@ export default class TodoApp extends Component {
             editItem={this.editItem}
             removeItem={this.removeItem}
             changeCompleted={this.changeCompleted}
+            updateTime={this.updateTime}
+            setTimerId={this.setTimerId}
           />
           <Footer undoneCount={undoneCount} changeFilter={this.changeFilter} clearCompleted={this.clearCompleted} />
         </div>

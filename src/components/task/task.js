@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { formatDistanceToNow } from 'date-fns';
+import { ru } from 'date-fns/locale';
 import PropTypes from 'prop-types';
 
 export default class Task extends Component {
@@ -9,7 +10,6 @@ export default class Task extends Component {
     label: 'Задача',
   };
   static propTypes = {
-    date: PropTypes.instanceOf(Date),
     changeCompleted: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
     showEdit: PropTypes.func.isRequired,
@@ -28,14 +28,37 @@ export default class Task extends Component {
   }
 
   render() {
-    const { changeCompleted, removeItem, showEdit, id, completed, label, date } = this.props;
+    const { id, completed, label, date, timerId, timeSpended } = this.props;
+    const { changeCompleted, removeItem, showEdit, setTimerId, updateTime } = this.props;
 
-    const timePassed = formatDistanceToNow(date, {
+    const timeHours = Math.trunc(timeSpended / 3600);
+    const timeMinutes = Math.trunc((timeSpended - timeHours * 3600) / 60);
+    const timeSeconds = Math.trunc(timeSpended - timeMinutes * 60 - timeHours * 3600);
+    const formattedTime = `${timeHours}:${timeMinutes}:${timeSeconds}`;
+
+    const timeFromCreation = formatDistanceToNow(date, {
       includeSeconds: true,
+      locale: ru,
     });
     const removeHandler = (evt) => {
       if (evt.target.matches('.icon-destroy')) {
         removeItem(id);
+      }
+    };
+    const playHandler = () => {
+      if (!timerId) {
+        let time = timeSpended;
+        const spendedTimerId = setInterval(() => {
+          time++;
+          updateTime(id, time);
+        }, 1000);
+        setTimerId(id, spendedTimerId);
+      }
+    };
+    const stopHandler = () => {
+      if (timerId) {
+        clearInterval(timerId);
+        setTimerId(id, null);
       }
     };
     const completedHandler = () => {
@@ -49,8 +72,13 @@ export default class Task extends Component {
       <div className="view" onClick={removeHandler}>
         <input className="toggle" type="checkbox" onChange={completedHandler} checked={this.props.completed} />
         <label>
-          <span className="description">{label}</span>
-          <span className="created">{timePassed}</span>
+          <span className="title">{label}</span>
+          <span className="description">
+            <button className="icon icon-play" onClick={playHandler}></button>
+            <button className="icon icon-pause" onClick={stopHandler}></button>
+            <span className="timer">{formattedTime}</span>
+          </span>
+          <span className="created">{timeFromCreation} назад</span>
         </label>
         <button className="icon icon-edit" onClick={showEditHandler}></button>
         <button className="icon icon-destroy"></button>
