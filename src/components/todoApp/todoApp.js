@@ -1,125 +1,60 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
 import TaskList from '../taskList/taskList';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 
-export default class TodoApp extends Component {
-  constructor() {
-    super();
-    this.state = {
-      todos: [],
-      filter: 'all',
-    };
-  }
+const TodoApp = () => {
+  const [todos, setTodos] = useState([]);
+  const [filter, setFilter] = useState('all');
 
-  changeFilter = (value) => {
-    this.setState({
-      filter: value,
-    });
+  const filteredTodos = () => {
+    return filter === 'all' ? todos : todos.filter((todo) => todo.completed);
   };
 
-  filter() {
-    const { filter, todos } = this.state;
-    let filteredTodos;
-    if (filter === 'all') {
-      filteredTodos = todos;
-    } else {
-      filteredTodos =
-        filter === 'done' ? todos.filter((todo) => todo.completed) : todos.filter((todo) => !todo.completed);
-    }
-    return filteredTodos;
-  }
-
-  addItem = (value) => {
+  const addItem = (value) => {
     const data = {
       label: value,
       completed: false,
-      id: this.state.todos.length,
+      id: todos.length,
       date: Date.now(),
       edit: false,
       timeSpended: 0,
       timerId: null,
     };
-
-    this.setState((state) => ({
-      todos: [...state.todos, ...[data]],
-    }));
+    setTodos((todos) => [...todos, data]);
   };
 
-  edit = (arr, id, attr, value) => {
+  const edit = (arr, id, attr, value) => {
     const newArr = arr.map((todo) => {
       if (todo.id === id) return { ...todo, [attr]: value };
       return todo;
     });
     return newArr;
   };
-  setTimerId = (id, value) => {
-    this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, 'timerId', value),
-    }));
+  const editTodo = (id, value, attr) => {
+    setTodos((todos) => edit(todos, id, attr, value));
+  };
+  const removeItem = (id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  };
+  const clearCompleted = () => {
+    setTodos((todos) => todos.map((todo) => ({ ...todo, completed: false })));
   };
 
-  updateTime = (id, value) => {
-    this.setState(({ todos }) => {
-      return { todos: this.edit(todos, id, 'timeSpended', value) };
-    });
-  };
-  showEdit = (id, value) => {
-    this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, 'edit', value),
-    }));
-  };
+  const doneCount = todos.filter((el) => el.completed).length;
+  const undoneCount = todos.length - doneCount;
 
-  editItem = (id, value) => {
-    this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, 'label', value),
-    }));
-  };
+  return (
+    <div className="todoapp">
+      <Header placeholder="Что надо сделать?" title="Todos" addItem={addItem} />
 
-  removeItem = (id) => {
-    this.setState(({ todos }) => ({
-      todos: todos.filter((todo) => todo.id !== id),
-    }));
-  };
-
-  changeCompleted = (id, value) => {
-    this.setState(({ todos }) => ({
-      todos: this.edit(todos, id, 'completed', value),
-    }));
-  };
-
-  clearCompleted = () => {
-    this.setState(({ todos }) => ({
-      todos: todos.map((todo) => {
-        return { ...todo, completed: false };
-      }),
-    }));
-  };
-
-  render() {
-    let { todos } = this.state;
-    const filteredTodos = this.filter();
-    let doneCount = todos.filter((el) => el.completed).length;
-    let undoneCount = todos.length - doneCount;
-
-    return (
-      <div className="todoapp">
-        <Header placeholder="Что надо сделать?" title="Todos" addItem={this.addItem} />
-
-        <div className="main">
-          <TaskList
-            todos={filteredTodos}
-            showEdit={this.showEdit}
-            editItem={this.editItem}
-            removeItem={this.removeItem}
-            changeCompleted={this.changeCompleted}
-            updateTime={this.updateTime}
-            setTimerId={this.setTimerId}
-          />
-          <Footer undoneCount={undoneCount} changeFilter={this.changeFilter} clearCompleted={this.clearCompleted} />
-        </div>
+      <div className="main">
+        <TaskList todos={filteredTodos()} editTodo={editTodo} removeItem={removeItem} clearCompleted={clearCompleted} />
+        <Footer undoneCount={undoneCount} changeFilter={setFilter} clearCompleted={clearCompleted} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default TodoApp;

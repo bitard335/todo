@@ -1,40 +1,24 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-export default class NewTaskForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      value: '',
-    };
-  }
+const NewTaskForm = (props) => {
+  const [value, setValue] = useState('');
 
-  static defaultProps = {
-    placeholder: 'Что надо сделать?',
+  const { placeholder, addItem } = props;
+
+  const inputChangeHandler = (event) => {
+    setValue(event.target.value);
   };
-  static propTypes = {
-    addItem: PropTypes.func.isRequired,
-    placeholder: PropTypes.string,
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (value.trim()) addItem(value);
+    setValue('');
   };
 
-  render() {
-    const { placeholder, addItem } = this.props;
-    let { value } = this.state;
+  return (
+    <form onSubmit={submitHandler}>
+      <input className="new-todo" placeholder={placeholder} onChange={inputChangeHandler} value={value} autoFocus />
+    </form>
+  );
+};
 
-    const inputChangeHandler = (event) => {
-      this.setState({ value: event.target.value });
-    };
-    const submitHandler = (event) => {
-      event.preventDefault();
-      if (value.trim()) addItem(value);
-      this.setState({
-        value: '',
-      });
-    };
-    return (
-      <form onSubmit={submitHandler}>
-        <input className="new-todo" placeholder={placeholder} onChange={inputChangeHandler} value={value} autoFocus />
-      </form>
-    );
-  }
-}
+export default NewTaskForm;
